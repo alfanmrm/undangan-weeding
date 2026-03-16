@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding of Alfan & Freya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #C5A059; --dark: #1a1a1a; --white: #ffffff; }
+        body { font-family: 'Montserrat', sans-serif; background: #fdfbfb; color: var(--dark); overflow-x: hidden; }
+        .font-wedding { font-family: 'Great Vibes', cursive; }
+        .font-royal { font-family: 'Cinzel', serif; }
+
+        /* PARALLAX CINDERELLA BG */
+        .parallax-bg {
+            background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), 
+                              url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070');
+            background-attachment: fixed; background-position: center; background-size: cover;
+        }
+
+        .gold-foil {
+            background: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        #cover {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('WhatsApp Image 2026-03-16 at 23.14.48.jpeg') center/cover;
+            z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 1.5s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        .open-cover { transform: translateY(-100%); }
+
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); grid-auto-rows: 300px; gap: 15px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: 0.5s; }
+        .gallery-item:hover img { transform: scale(1.05); filter: brightness(0.8); }
+
+        #flower-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
+        .flower { position: absolute; background: url('https://pngimg.com/d/sakura_PNG15.png') no-repeat; background-size: contain; opacity: 0.6; }
+
+        @keyframes fall { 0% { top: -10%; transform: rotate(0deg); } 100% { top: 110%; transform: rotate(360deg) translateX(50px); } }
+
+        .timeline-item { border-left: 2px solid var(--gold); padding-left: 20px; position: relative; }
+        .timeline-item::before { content: '🕊'; position: absolute; left: -14px; top: 0; background: white; }
+
+        /* Card Rekening */
+        .bank-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2);
+        }
+    </style>
+</head>
+<body class="parallax-bg">
+
+    <div id="flower-container"></div>
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="cover">
+        <div class="text-center text-white" data-aos="fade-up">
+            <p class="font-royal tracking-[0.5em] mb-4">THE CELEBRATION OF</p>
+            <h1 class="font-wedding text-8xl md:text-9xl gold-foil mb-10">Alfan & Freya</h1>
+            <div class="mb-10">
+                <p class="text-xs tracking-widest mb-2 opacity-70 italic">Kersaning Gusti, Hatur Uninga Kangge:</p>
+                <h2 class="text-3xl font-royal gold-foil border-y border-white/20 py-4 px-10">Salman Oblo</h2>
+            </div>
+            <button onclick="openInvitation()" class="bg-white text-black px-12 py-4 rounded-full font-bold tracking-[0.2em] text-xs hover:bg-[#C5A059] hover:text-white transition-all shadow-2xl">BUKA UNDANGAN</button>
+        </div>
+    </div>
+
+    <main id="main-content" class="opacity-0 transition-opacity duration-1000">
+        
+        <section class="py-20 bg-white/60 backdrop-blur-md text-center border-b border-gold">
+            <h3 class="font-royal text-gold tracking-widest mb-10">MENANTI HARI BAHAGIA</h3>
+            <div class="flex justify-center gap-4 md:gap-10">
+                <div class="bg-white p-6 rounded-2xl shadow-xl w-20 md:w-32"><span id="days" class="text-3xl font-bold block">99</span><span class="text-[10px] uppercase">Hari</span></div>
+                <div class="bg-white p-6 rounded-2xl shadow-xl w-20 md:w-32"><span id="hours" class="text-3xl font-bold block">0</span><span class="text-[10px] uppercase">Jam</span></div>
+                <div class="bg-white p-6 rounded-2xl shadow-xl w-20 md:w-32"><span id="minutes" class="text-3xl font-bold block">0</span><span class="text-[10px] uppercase">Menit</span></div>
+                <div class="bg-white p-6 rounded-2xl shadow-xl w-20 md:w-32"><span id="seconds" class="text-3xl font-bold block">0</span><span class="text-[10px] uppercase">Detik</span></div>
+            </div>
+        </section>
+
+        <section class="py-32 px-6 max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-20 text-center items-center">
+                <div data-aos="fade-right">
+                    <div class="w-72 h-96 mx-auto rounded-t-full border-4 border-gold p-2 shadow-2xl">
+                        <img src="WhatsApp Image 2026-03-16 at 23.02.03.jpeg" class="w-full h-full object-cover rounded-t-full">
+                    </div>
+                    <h4 class="font-wedding text-6xl gold-foil mt-6">Alfan</h4>
+                    <p class="font-royal mt-2 tracking-widest">Putra Bp. Ahmad & Ibu Siti</p>
+                </div>
+                <div data-aos="fade-left">
+                    <div class="w-72 h-96 mx-auto rounded-t-full border-4 border-gold p-2 shadow-2xl">
+                        <img src="WhatsApp Image 2026-03-16 at 23.14.48.jpeg" class="w-full h-full object-cover rounded-t-full">
+                    </div>
+                    <h4 class="font-wedding text-6xl gold-foil mt-6">Freya</h4>
+                    <p class="font-royal mt-2 tracking-widest">Putri Bp. Wijaya & Ibu Asih</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-stone-50/80 px-6">
+            <div class="max-w-3xl mx-auto">
+                <h3 class="font-royal text-center text-3xl gold-foil mb-16">PERJALANAN CINTA</h3>
+                <div class="space-y-12">
+                    <div class="timeline-item" data-aos="fade-up">
+                        <h4 class="font-bold text-gold">Awal Bertemu - 2022</h4>
+                        <p class="text-sm opacity-80">Pertemuan pertama di sebuah senja yang tak terlupakan di Kota Bandung.</p>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up">
+                        <h4 class="font-bold text-gold">Menyatakan Janji - 2024</h4>
+                        <p class="text-sm opacity-80">Di bawah rindangnya pohon, janji untuk setia mulai terucap.</p>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up">
+                        <h4 class="font-bold text-gold">Menuju Pelaminan - 2030</h4>
+                        <p class="text-sm opacity-80">Kini, kami bersiap untuk melangkah bersama dalam ikatan suci.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 px-6 max-w-6xl mx-auto">
+            <h3 class="font-royal text-center text-3xl gold-foil mb-16">GALERI KEBAHAGIAAN</h3>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-aos="zoom-in"><img src="WhatsApp Image 2026-03-16 at 23.02.03.jpeg"></div>
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100"><img src="WhatsApp Image 2026-03-16 at 23.14.48.jpeg"></div>
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070"></div>
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069"></div>
+            </div>
+        </section>
+
+        <section class="py-24 px-6 text-center">
+            <h3 class="font-royal text-3xl gold-foil mb-10">TANDA KASIH</h3>
+            <p class="max-w-md mx-auto mb-10 text-sm opacity-70">Doa restu Anda adalah karunia yang sangat berarti bagi kami. Namun jika Anda ingin memberi tanda kasih, dapat melalui nomor rekening berikut:</p>
+            
+            <div class="max-w-md mx-auto space-y-6">
+                <div class="bank-card" data-aos="flip-up">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-8 mx-auto mb-4">
+                    <p class="text-xs tracking-widest mb-2">BANK CENTRAL ASIA (BCA)</p>
+                    <h4 class="text-2xl font-bold mb-1 tracking-widest">1234 567 890</h4>
+                    <p class="text-sm font-semibold opacity-60 mb-4">A.N. ALFAN MUHARRAM</p>
+                    <button onclick="copyAcc('1234567890')" class="bg-[#C5A059] text-white px-6 py-2 rounded-full text-[10px] font-bold tracking-widest">SALIN NOMOR</button>
+                </div>
+
+                <div class="bank-card" data-aos="flip-up" data-aos-delay="200">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="h-8 mx-auto mb-4">
+                    <p class="text-xs tracking-widest mb-2">BANK MANDIRI</p>
+                    <h4 class="text-2xl font-bold mb-1 tracking-widest">9876 543 210</h4>
+                    <p class="text-sm font-semibold opacity-60 mb-4">A.N. FREYA</p>
+                    <button onclick="copyAcc('9876543210')" class="bg-[#C5A059] text-white px-6 py-2 rounded-full text-[10px] font-bold tracking-widest">SALIN NOMOR</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 px-6 text-center">
+            <h3 class="font-royal text-3xl gold-foil mb-10">LOKASI KERAJAAN</h3>
+            <div class="max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl h-96">
+                <iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.273887034458!2d106.82173667503774!3d-6.22757139376063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3fb7c81d85b%3A0x6a0595304b5006b5!2sThe%20St.%20Regis%20Jakarta!5e0!3m2!1sen!2sid!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/YourLinkHere" class="mt-10 inline-block bg-black text-white px-10 py-3 rounded-full font-bold text-xs tracking-widest shadow-xl">PETUNJUK JALAN</a>
+        </section>
+
+        <section class="py-24 px-6 bg-white/70 backdrop-blur-lg">
+            <div class="max-w-xl mx-auto text-center">
+                <h3 class="font-royal text-3xl gold-foil mb-10">RSVP & DOA RESTU</h3>
+                <form class="space-y-4">
+                    <input type="text" placeholder="Nama Lengkap" class="w-full p-4 rounded-xl border border-gold focus:outline-none">
+                    <select class="w-full p-4 rounded-xl border border-gold focus:outline-none">
+                        <option>Konfirmasi Kehadiran</option>
+                        <option>Hadir</option>
+                        <option>Tidak Hadir</option>
+                    </select>
+                    <textarea placeholder="Ucapan Doa Restu" class="w-full p-4 h-32 rounded-xl border border-gold focus:outline-none"></textarea>
+                    <button type="button" class="w-full bg-[#C5A059] text-white py-4 rounded-xl font-bold tracking-widest">KIRIM UCAPAN</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="py-10 text-center opacity-40 text-[10px] tracking-[0.5em] bg-white">
+            © 2030 ALFAN & FREYA | EXCLUSIVE INVITATION
+        </footer>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1500 });
+
+        // COUNTDOWN OTOMATIS 99 HARI DARI SEKARANG
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 99); // Set ke 99 hari lagi secara dinamis
+        targetDate.setHours(0, 0, 0, 0);
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate.getTime() - now;
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+        }, 1000);
+
+        function createFlowers() {
+            const container = document.getElementById('flower-container');
+            for(let i=0; i<30; i++) {
+                const flower = document.createElement('div');
+                flower.classList.add('flower');
+                flower.style.left = Math.random() * 100 + 'vw';
+                const size = Math.random() * 20 + 10;
+                flower.style.width = size + 'px';
+                flower.style.height = size + 'px';
+                flower.style.animation = `fall ${Math.random()*5 + 5}s linear infinite`;
+                flower.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(flower);
+            }
+        }
+
+        function openInvitation() {
+            document.getElementById('cover').classList.add('open-cover');
+            document.getElementById('main-content').classList.remove('opacity-0');
+            document.body.style.overflow = 'auto';
+            document.getElementById('bgMusic').play();
+            createFlowers();
+        }
+
+        function copyAcc(num) {
+            navigator.clipboard.writeText(num);
+            alert("Nomor Rekening Berhasil Disalin!");
+        }
+    </script>
+</body>
+</html>
